@@ -1,0 +1,25 @@
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+@app.route("/", methods=["GET", "POST"])
+def calculator():
+    result = ""
+    if request.method == "POST":
+        try:
+            num1 = float(request.form["num1"])
+            num2 = float(request.form["num2"])
+            op = request.form["op"]
+
+            if op == "+":
+                result = num1 + num2
+            elif op == "-":
+                result = num1 - num2
+            elif op == "*":
+                result = num1 * num2
+            elif op == "/":
+                result = "Cannot divide by zero" if num2 == 0 else num1 / num2
+        except:
+            result = "Invalid input"
+
+    return render_template("index.html", result=result)
